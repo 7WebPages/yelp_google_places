@@ -1,0 +1,13 @@
+# Ignore folders
+assets
+media
+.env
+
+# Ignore files
+*.py[co]
+*.db
+*.log
+.DS_Store
+._*
+
+src/conf/local.py
