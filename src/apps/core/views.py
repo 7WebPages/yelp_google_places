@@ -22,11 +22,11 @@ class ApiFormView(View):
             try:
                 data['data'] = self.get_data(form.cleaned_data)
             except Exception as e:
-                data['form_errors'] = e.message
+                data['errors'] = e.message
                 data['success'] = False
         else:
             status_code = 400
-            data['form_errors'] = form._errors
+            data['errors'] = form._errors
             data['success'] = False
 
 
@@ -37,6 +37,10 @@ class ApiFormView(View):
 
 class ApiDetailView(ApiFormView):
     form_class = ApiDetailForm
+
+    def get_data(self, cleaned_data):
+        cleaned_data = super(ApiListView, self).get_data(cleaned_data)
+        import ipdb; ipdb.set_trace()
 
 
 class ApiListView(ApiFormView):
@@ -55,7 +59,7 @@ class ApiListView(ApiFormView):
         _offset_end = 50
         _page_size = 20
 
-        #google_instance = get_google_instance(settings.GOOGLE_API_KEY)
+        google_instance = get_google_instance(settings.GOOGLE_API_KEY)
         yelp_instance = get_yelp_instance(settings.YELP_API_KEY)
 
         kwargs = {
@@ -73,7 +77,24 @@ class ApiListView(ApiFormView):
         yelp_response = yelp_instance.Search(**kwargs)
 
         for business in yelp_response.businesses:
-            data.append({
+            places = google_instance.text_search(
+                business.name,
+                lat_lng={
+                    'lat': business.location.coordinate['latitude'],
+                    'lng': business.location.coordinate['longitude']
+                }
+            )
+
+            company = {}
+            for place in places.places:
+                place.get_details()
+                company.update({
+                    'rating': str(place.rating),
+                    'website': place.website,
+                    'address': place.formatted_address
+                })
+
+            company.update({
                 'id': business.id,
                 'image_url': business.image_url,
                 'name': business.name,
@@ -81,5 +102,7 @@ class ApiListView(ApiFormView):
                 'display_phone': business.display_phone,
                 'coordinate': business.location.coordinate,
             })
+
+            data.append(company)
 
         return data
