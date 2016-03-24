@@ -181,3 +181,12 @@ LOGGING = {
         },
     }
 }
+
+YELP_API_KEY = {
+    'consumer_key': os.getenv('consumer_key'),
+    'consumer_secret': os.getenv('consumer_secret'),
+    'access_token_key': os.getenv('access_token_key'),
+    'access_token_secret': os.getenv('access_token_secret'),
+}
+
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
