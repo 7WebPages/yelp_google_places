@@ -52,7 +52,7 @@ class ApiListView(ApiFormView):
         category_filter = cleaned_data.get('category_filter')
         location = cleaned_data.get('location')
         term = cleaned_data.get('term')
-        page = cleaned_data.get('page') or 0
+        page = cleaned_data.get('offset') or 0
         limit = cleaned_data.get('limit') or 20
 
         data = []
