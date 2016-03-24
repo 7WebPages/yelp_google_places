@@ -1,5 +1,14 @@
+import decimal
+import json
 import yelp
 import googleplaces
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 def get_yelp_instance(yelp_key):

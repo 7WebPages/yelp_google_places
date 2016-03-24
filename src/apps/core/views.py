@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanen
 from django.conf import settings
 
 from .forms import ApiDetailForm, ApiListForm
-from .utils import get_yelp_instance, get_google_instance
+from .utils import get_yelp_instance, get_google_instance, DecimalEncoder
 
 
 class ApiFormView(View):
@@ -30,7 +30,7 @@ class ApiFormView(View):
             data['success'] = False
 
 
-        return HttpResponse(json.dumps(data),
+        return HttpResponse(json.dumps(data, cls=DecimalEncoder),
                             status=status_code,
                             content_type='application/json')
 
@@ -89,20 +89,7 @@ class ApiListView(ApiFormView):
             company = {}
             for place in places.places:
                 place.get_details()
-                company.update({
-                    'rating': str(place.rating),
-                    'website': place.website,
-                    'address': place.formatted_address
-                })
-
-            company.update({
-                'id': business.id,
-                'image_url': business.image_url,
-                'name': business.name,
-                'phone': business.phone,
-                'display_phone': business.display_phone,
-                'coordinate': business.location.coordinate,
-            })
+                company.update(place.details)
 
             data.append(company)
 
