@@ -4,7 +4,7 @@ from django.views.generic import FormView, View
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.conf import settings
 
-from .forms import ApiDetailForm, ApiListForm
+from .forms import ApiListForm
 from .utils import get_yelp_instance, get_google_instance, DecimalEncoder
 
 
@@ -33,14 +33,6 @@ class ApiFormView(View):
         return HttpResponse(json.dumps(data, cls=DecimalEncoder),
                             status=status_code,
                             content_type='application/json')
-
-
-class ApiDetailView(ApiFormView):
-    form_class = ApiDetailForm
-
-    def get_data(self, cleaned_data):
-        cleaned_data = super(ApiListView, self).get_data(cleaned_data)
-        import ipdb; ipdb.set_trace()
 
 
 class ApiListView(ApiFormView):
