@@ -53,11 +53,12 @@ class ApiListView(ApiFormView):
         location = cleaned_data.get('location')
         term = cleaned_data.get('term')
         page = cleaned_data.get('page') or 0
+        limit = cleaned_data.get('limit') or 20
 
         data = []
 
         _offset_end = 50
-        _page_size = 20
+        _page_size = limit
 
         google_instance = get_google_instance(settings.GOOGLE_API_KEY)
         yelp_instance = get_yelp_instance(settings.YELP_API_KEY)
