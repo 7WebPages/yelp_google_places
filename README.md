@@ -25,7 +25,7 @@ heroku run python src/manage.py migrate
 # Example
 
 ```
-pip install http
+pip install httpie
 
 http http://googleplaces.herokuapp.com/api/list/?location=US&limit=1
 http http://googleplaces.herokuapp.com/api/list/?location=US&limit=1&term=fitness
