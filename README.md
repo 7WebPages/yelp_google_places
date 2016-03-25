@@ -28,7 +28,7 @@ heroku run python src/manage.py migrate
 pip install http
 
 http http://googleplaces.herokuapp.com/api/list/?location=US&limit=1
-http http://googleplaces.herokuapp.com/api/list/?location=US&limit=1&term=facebook
+http http://googleplaces.herokuapp.com/api/list/?location=US&limit=1&term=fitness
 http http://googleplaces.herokuapp.com/api/list/?location=US&limit=1&category_filter=fitness
 
 ```
