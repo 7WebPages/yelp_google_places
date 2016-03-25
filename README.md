@@ -12,17 +12,12 @@ pip install -r requirements.txt
 ```
 git init .
 heroku create
-git remote add heroku https://git.heroku.com/heroku-project-name.git
 git add .
 git commit -m 'first commit'
 git push heroku master
-
-# Migrations
-heroku run python src/manage.py migrate
-
 ```
 
-# Example
+# Usage Example
 
 ```
 pip install httpie
